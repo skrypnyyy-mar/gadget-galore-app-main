@@ -16,8 +16,8 @@ class AppRouter {
     refreshListenable: AuthNotifier.instance,
     redirect: (context, state) {
       final loggedIn = AuthNotifier.instance.isLoggedIn;
-      final loc = state.subloc;
-      final protected = ['/account', '/cart', '/checkout'].contains(loc);
+      final loc = state.uri.path;
+      final protected = ['/account', '/cart', '/checkout', '/orders', '/services'].contains(loc);
       if (!loggedIn && protected) return '/login';
       if (loggedIn && (loc == '/login' || loc == '/splash')) return '/';
       return null;
@@ -89,6 +89,26 @@ class AppRouter {
         parentNavigatorKey: _rootNavigatorKey,
         path: '/success',
         builder: (context, state) => const SuccessScreen(),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: '/splash',
+        builder: (context, state) => const SplashScreen(),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: '/login',
+        builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: '/orders',
+        builder: (context, state) => const OrdersScreen(),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: '/services',
+        builder: (context, state) => const ServicesScreen(),
       ),
     ],
   );

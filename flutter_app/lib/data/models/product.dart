@@ -9,6 +9,9 @@ class Product {
   final double rating;
   final int reviews;
   final int? stock;
+  final List<String> colors;
+  final List<String>? colorNames;
+  final List<String>? images;
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
@@ -41,6 +44,7 @@ class Product {
     required this.colors,
     this.colorNames,
     this.images,
+    this.stock,
   });
 }
 

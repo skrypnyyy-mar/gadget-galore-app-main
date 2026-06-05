@@ -20,6 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await AuthNotifier.instance.loadToken();
     // Small delay to show splash
     await Future.delayed(const Duration(seconds: 1));
+    if (!mounted) return;
     if (AuthNotifier.instance.isLoggedIn) {
       context.go('/');
     } else {

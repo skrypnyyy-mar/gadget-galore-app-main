@@ -12,22 +12,32 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
+  bool _isRegister = false;
 
-  Future<void> _login() async {
+  Future<void> _submit() async {
     setState(() => _isLoading = true);
     try {
-      await AuthNotifier.instance.login(
-        _emailController.text.trim(),
-        _passwordController.text,
-      );
-      // On success go to home
+      if (_isRegister) {
+        await AuthNotifier.instance.register(
+          _nameController.text.trim(),
+          _emailController.text.trim(),
+          _passwordController.text,
+        );
+      } else {
+        await AuthNotifier.instance.login(
+          _emailController.text.trim(),
+          _passwordController.text,
+        );
+      }
       if (mounted) context.go('/');
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Помилка входу: $e')),
+        SnackBar(content: Text('Помилка: $e')),
       );
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -39,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Вхід'),
+        title: Text(_isRegister ? 'Реєстрація' : 'Вхід'),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
@@ -48,6 +58,16 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
           child: Column(
             children: [
+              if (_isRegister) ...[
+                TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Ім\'я',
+                    prefixIcon: Icon(LucideIcons.user),
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
               TextField(
                 controller: _emailController,
                 decoration: const InputDecoration(
@@ -70,11 +90,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: _isLoading ? null : _login,
+                  onPressed: _isLoading ? null : _submit,
                   child: _isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text('Увійти'),
+                      : Text(_isRegister ? 'Зареєструватися' : 'Увійти'),
                 ),
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () => setState(() => _isRegister = !_isRegister),
+                child: Text(_isRegister ? 'Вже маєте акаунт? Увійти' : 'Немає акаунта? Зареєструватися'),
               ),
             ],
           ),

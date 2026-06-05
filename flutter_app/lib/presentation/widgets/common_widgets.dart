@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import 'searchable_dropdown.dart';
 import 'app_button.dart';
 
 /// Button representing a payment method (e.g., Apple Pay, Card).
