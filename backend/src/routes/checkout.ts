@@ -1,25 +1,12 @@
 import { Router } from 'express';
 import { PrismaClient } from '@prisma/client';
-import jwt from 'jsonwebtoken';
+import { authenticate } from '../middlewares/auth';
+import { validateBody } from '../middlewares/validator';
 
 const router = Router();
 const prisma = new PrismaClient();
-const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_key';
 
-// Middleware to authenticate
-const authenticate = (req: any, res: any, next: any) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'Unauthorized' });
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET) as any;
-    req.userId = decoded.userId;
-    next();
-  } catch {
-    res.status(401).json({ error: 'Invalid token' });
-  }
-};
-
-router.post('/', authenticate, async (req: any, res: any) => {
+router.post('/', authenticate, validateBody(['items', 'total', 'deliveryCost', 'paymentMethod']), async (req: any, res: any) => {
   try {
     const { items, total, deliveryCost, paymentMethod } = req.body;
     

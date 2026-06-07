@@ -16,29 +16,12 @@ class FormValidators {
     final parts = value.trim().split(RegExp(r'\s+'));
     return parts.length == 2 && _nameRegex.hasMatch(parts[0]) && _nameRegex.hasMatch(parts[1]);
   }
-
   static bool isValidPhone(String value) => _phoneRegex.hasMatch(value.trim());
-
   static bool isValidCardNumber(String value) => _cardRegex.hasMatch(value.trim());
-
   static bool isValidExpiry(String value) => _expiryRegex.hasMatch(value.trim());
-
   static bool isValidCvc(String value) => _cvcRegex.hasMatch(value.trim());
-
-  static bool isValidCompany(String value) {
-    final val = value.trim();
-    return val.isEmpty || _companyRegex.hasMatch(val);
-  }
-
-  static bool isValidEmail(String value) {
-    final val = value.trim();
-    return val.isEmpty || _emailRegex.hasMatch(val);
-  }
-
-  static bool isValidDate(String value) {
-    final val = value.trim();
-    return val.isEmpty || _dateRegex.hasMatch(val);
-  }
-
+  static bool isValidCompany(String value) => value.trim().isEmpty || _companyRegex.hasMatch(value.trim());
+  static bool isValidEmail(String value) => value.trim().isEmpty || _emailRegex.hasMatch(value.trim());
+  static bool isValidDate(String value) => value.trim().isEmpty || _dateRegex.hasMatch(value.trim());
   static bool isValidCity(String value) => ukraineLocations.contains(value.trim());
 }

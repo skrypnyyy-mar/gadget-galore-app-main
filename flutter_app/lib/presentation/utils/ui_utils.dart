@@ -1,34 +1,18 @@
 import 'package:flutter/material.dart';
 
-// Helper for parsing Hex colors (e.g. #ffffff)
 Color parseHex(String hex) {
-  try {
-    return Color(int.parse(hex.replaceFirst('#', '0xff')));
-  } catch (_) {
-    return Colors.grey;
-  }
+  try { return Color(int.parse(hex.replaceFirst('#', '0xff'))); } catch (_) { return Colors.grey; }
 }
 
-// Helper for getting the avatar letter
 String getAvatarLetter(String? name, String? email) {
-  if (name != null && name.trim().isNotEmpty) {
-    return name.trim()[0].toUpperCase();
-  }
-  if (email != null && email.trim().isNotEmpty) {
-    return email.trim()[0].toUpperCase();
-  }
+  if (name != null && name.trim().isNotEmpty) return name.trim()[0].toUpperCase();
+  if (email != null && email.trim().isNotEmpty) return email.trim()[0].toUpperCase();
   return 'К';
 }
 
-// Helper for picking a background color based on name/email hash
 Color getAvatarColor(String? identifier) {
   if (identifier == null || identifier.isEmpty) return Colors.blue;
-  final palette = [
-    Colors.red, Colors.pink, Colors.purple, Colors.deepPurple,
-    Colors.indigo, Colors.blue, Colors.lightBlue, Colors.cyan,
-    Colors.teal, Colors.green, Colors.lightGreen, Colors.amber,
-    Colors.orange, Colors.deepOrange, Colors.brown
-  ];
+  final palette = [Colors.red, Colors.pink, Colors.purple, Colors.deepPurple, Colors.indigo, Colors.blue, Colors.lightBlue, Colors.cyan, Colors.teal, Colors.green, Colors.lightGreen, Colors.amber, Colors.orange, Colors.deepOrange, Colors.brown];
   final hash = identifier.codeUnits.fold(0, (prev, elem) => prev + elem);
   return palette[hash % palette.length];
 }
@@ -45,12 +29,6 @@ const Map<String, List<String>> cityAddresses = {
 };
 
 List<String> getAddressesForCity(String city) {
-  if (cityAddresses.containsKey(city)) {
-    return cityAddresses[city]!;
-  }
-  return [
-    'Відділення №1: вул. Центральна, 1',
-    'Відділення №2: вул. Соборна, 15',
-    'Відділення №3: пр-т Перемоги, 24',
-  ];
+  if (cityAddresses.containsKey(city)) return cityAddresses[city]!;
+  return ['Відділення №1: вул. Центральна, 1', 'Відділення №2: вул. Соборна, 15', 'Відділення №3: пр-т Перемоги, 24'];
 }
