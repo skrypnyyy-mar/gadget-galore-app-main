@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 
 const router = Router();
 
@@ -9,7 +9,7 @@ const getDeliveryCost = (category: string) => {
   return 100; // 100 UAH standard delivery
 };
 
-router.post('/estimate', (req, res) => {
+router.post('/estimate', (req: Request, res: Response) => {
   try {
     const { items } = req.body; // Array of { category: string, quantity: number }
     if (!items || !items.length) {

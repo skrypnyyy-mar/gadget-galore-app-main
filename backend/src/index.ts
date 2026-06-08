@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
@@ -22,7 +22,7 @@ app.use('/api/delivery', deliveryRoutes);
 app.use('/api/services', servicesRoutes);
 
 // Health check
-app.get('/api/health', (req, res) => {
+app.get('/api/health', (req: Request, res: Response) => {
   res.json({ status: 'ok', message: 'Gadget Galore API is running' });
 });
 

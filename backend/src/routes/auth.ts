@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
@@ -8,7 +8,7 @@ const router = Router();
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_key';
 
-router.post('/register', validateBody(['email', 'password', 'name']), async (req, res) => {
+router.post('/register', validateBody(['email', 'password', 'name']), async (req: Request, res: Response) => {
   try {
     const { email, password, name } = req.body;
     const existing = await prisma.user.findUnique({ where: { email } });
@@ -26,7 +26,7 @@ router.post('/register', validateBody(['email', 'password', 'name']), async (req
   }
 });
 
-router.post('/login', validateBody(['email', 'password']), async (req, res) => {
+router.post('/login', validateBody(['email', 'password']), async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const user = await prisma.user.findUnique({ where: { email } });
@@ -42,7 +42,7 @@ router.post('/login', validateBody(['email', 'password']), async (req, res) => {
   }
 });
 
-router.post('/refresh', validateBody(['token']), async (req, res) => {
+router.post('/refresh', validateBody(['token']), async (req: Request, res: Response) => {
   // In a real app, you'd use a separate refresh token logic.
   // Here we just accept a valid token and issue a new one.
   const { token } = req.body;

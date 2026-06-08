@@ -1,9 +1,9 @@
-import { Router } from 'express';
-import { authenticate } from '../middlewares/auth';
+import { Router, Response } from 'express';
+import { authenticate, AuthenticatedRequest } from '../middlewares/auth';
 
 const router = Router();
 
-router.get('/', authenticate, (req: any, res: any) => {
+router.get('/', authenticate, (req: AuthenticatedRequest, res: Response) => {
   res.json([
     {
       id: "install-basic",
